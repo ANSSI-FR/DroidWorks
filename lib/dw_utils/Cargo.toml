@@ -1,0 +1,18 @@
+[package]
+name = "dw_utils"
+version = "1.2.0"
+authors = ["DroidWorks Team <droidworks@ssi.gouv.fr>"]
+edition = "2021"
+description = "Cross-crates utilities for DroidWorks project"
+readme = "../../README.md"
+categories = []
+
+[dependencies]
+chrono = "0.4"
+log = { version = "0.4", features = ["std"] }
+thiserror = "1.0"
+
+[dependencies.zip]
+version = "0.6"
+default-features = false
+features = [ "deflate" ]

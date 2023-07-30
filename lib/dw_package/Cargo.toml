@@ -1,0 +1,24 @@
+[package]
+name = "dw_package"
+version = "1.2.0"
+authors = ["DroidWorks Team <droidworks@ssi.gouv.fr>"]
+edition = "2021"
+description = "Entry points for Android app manipulations"
+readme = "../../README.md"
+categories = ["data-structures"]
+
+[dependencies]
+dw_dex = { path = "../dw_dex" }
+dw_resources = { path = "../dw_resources" }
+dw_utils = { path = "../dw_utils" }
+base64 = "0.21"
+log = "0.4"
+lazy_static = "1.4"
+rayon = "1.4"
+regex = "1.9"
+thiserror = "1.0"
+
+[dependencies.zip]
+version = "0.6"
+default-features = false
+features = [ "deflate" ]

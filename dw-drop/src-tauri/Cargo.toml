@@ -1,0 +1,30 @@
+[package]
+name = "dw-drop"
+version = "1.2.0"
+description = "dw-drop"
+authors = ["DroidWorks Team <droidworks@ssi.gouv.fr>"]
+license = ""
+repository = ""
+default-run = "dw-drop"
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "1.1", features = [] }
+
+[dependencies]
+droidworks = { path = "../.." }
+base64 = "0.13"
+html-escape = "0.2"
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+tauri = { version = "1.0", features = ["dialog-open", "dialog-save", "fs-read-file", "shell-open"] }
+
+[features]
+default = [ "custom-protocol" ]
+custom-protocol = [ "tauri/custom-protocol" ]
+
+[profile.release]
+lto = true
+
+[workspace]
+members = []

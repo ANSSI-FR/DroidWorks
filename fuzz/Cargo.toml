@@ -1,0 +1,30 @@
+[package]
+name = "droidworks-fuzz"
+version = "0.0.0"
+authors = ["Automatically generated"]
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+dw_dex = { path = "../lib/dw_dex" }
+dw_resources = { path = "../lib/dw_resources" }
+
+# Prevent this from interfering with workspaces
+[workspace]
+members = ["."]
+
+[[bin]]
+name = "dex_parsing"
+path = "fuzz_targets/dex_parsing.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "arsc_parsing"
+path = "fuzz_targets/arsc_parsing.rs"
+test = false
+doc = false

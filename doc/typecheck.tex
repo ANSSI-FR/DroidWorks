@@ -1,0 +1,417 @@
+\documentclass[english,dvips,ps2pdf,11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{microtype}
+
+\usepackage[top=2cm,bottom=2cm,right=2cm,left=2cm]{geometry}
+
+\usepackage{xspace}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bussproofs}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{pst-node}
+
+\def\defaultHypSeparation{\hspace*{.5em}}
+
+\let\powerset\wp
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+
+\newcommand{\todo}[1]{\footnote{\textcolor{red}{#1}}}
+
+\newcommand{\var}[1]{\ensuremath{\mathit{#1}}\xspace}
+\newcommand{\func}[1]{\ensuremath{\mathsf{#1}}\xspace}
+
+\newcommand{\bcode}[1]{\texttt{#1}\xspace}
+
+\newcommand{\dalvik}[0]{\textsc{Dalvik}\xspace}
+
+\newcommand{\databool}[0]{\ensuremath{\texttt{bool}}\xspace}
+\newcommand{\datainteger}[0]{\ensuremath{\texttt{integer}}\xspace}
+\newcommand{\datafloat}[0]{\ensuremath{\texttt{float}}\xspace}
+\newcommand{\datalong}[0]{\ensuremath{\texttt{long}}\xspace}
+\newcommand{\datadouble}[0]{\ensuremath{\texttt{double}}\xspace}
+\newcommand{\meettd}[0]{\ensuremath{\textsf{Meet32}}\xspace}
+\newcommand{\meetsq}[0]{\ensuremath{\textsf{Meet64}}\xspace}
+\newcommand{\jointd}[0]{\ensuremath{\textsf{Join32}}\xspace}
+\newcommand{\joinsq}[0]{\ensuremath{\textsf{Join64}}\xspace}
+\newcommand{\joinz}[0]{\ensuremath{\textsf{JoinZero}}\xspace}
+%\newcommand{\refarray}[2]{\ensuremath{\textsf{Array}^{#1}_ {#2}}\xspace}
+\newcommand{\refarray}[2]{\ensuremath{[#2]^{#1}}\xspace}
+%\newcommand{\refobject}[1]{\ensuremath{\textsf{Object}_{#1}}\xspace}
+\newcommand{\refobject}[1]{\ensuremath{\langle #1 \rangle}\xspace}
+\newcommand{\meetz}[0]{\ensuremath{\textsf{MeetZero}}\xspace}
+\newcommand{\pnull}[0]{\ensuremath{\textsf{Null}}\xspace}
+\newcommand{\valuetypes}[0]{\ensuremath{\mathcal{T_J}}\xspace}
+\newcommand{\classtypes}[0]{\ensuremath{\mathcal{T_C}}\xspace}
+\newcommand{\concretetypes}[0]{\ensuremath{\mathcal{T}}\xspace}
+\newcommand{\types}[0]{\ensuremath{\overline{\mathcal{T}}}\xspace}
+\newcommand{\classes}[0]{\ensuremath{\mathcal{C}}\xspace}
+\newcommand{\fields}[0]{\ensuremath{\mathcal{F}}\xspace}
+\newcommand{\methods}[0]{\ensuremath{\mathcal{M}}\xspace}
+\newcommand{\jumps}[0]{\ensuremath{\mathcal{L}}\xspace}
+\newcommand{\instructions}[0]{\ensuremath{\mathcal{I}}\xspace}
+\newcommand{\instruction}[1]{\ensuremath{\var{instr}_{#1}}\xspace}
+\newcommand{\cfg}[1]{\var{CFG}_{#1}}
+
+\newcommand{\pfields}[0]{\ensuremath{\mathcal{A}_\var{fields}}\xspace}
+\newcommand{\pstrings}[0]{\ensuremath{\mathcal{A}_\var{strings}}\xspace}
+\newcommand{\ptypes}[0]{\ensuremath{\mathcal{A}_\var{types}}\xspace}
+\newcommand{\pmethods}[0]{\ensuremath{\mathcal{A}_\var{methods}}\xspace}
+
+\newcommand{\aclass}[1]{\texttt{#1}\xspace}
+
+\newcommand{\jobject}[0]{\ensuremath{\texttt{java.lang.Object}}\xspace}
+\newcommand{\jclass}[0]{\ensuremath{\texttt{java.lang.Class}}\xspace}
+\newcommand{\jstring}[0]{\ensuremath{\texttt{java.lang.String}}\xspace}
+\newcommand{\jexception}[0]{\ensuremath{\texttt{java.lang.Exception}}\xspace}
+\newcommand{\jserializable}[0]{\ensuremath{\texttt{java.io.Serializable}}\xspace}
+
+\newcommand{\resolve}[0]{\var{resolve}}
+\newcommand{\typeof}[0]{\ensuremath{\tau}\xspace}
+%\newcommand{\parentof}[0]{\ensuremath{\upsilon}\xspace}
+\newcommand{\inherits}[0]{\ensuremath{\leq}\xspace}
+\newcommand{\cinherits}[0]{\ensuremath{\sqsubseteq}\xspace}
+\newcommand{\cjoin}[0]{\ensuremath{\sqcup}\xspace}
+
+\newcommand{\nbregisters}[0]{\func{nbRegisters}}
+\newcommand{\nbparams}[0]{\func{nbParams}}
+\newcommand{\returnof}[0]{\func{return}}
+\newcommand{\parameter}[0]{\func{parameter}}
+\newcommand{\static}[0]{\func{static}}
+\newcommand{\switchoffsets}[0]{\func{switchOffsets}}
+\newcommand{\constructor}[0]{\func{constructor}}
+\newcommand{\final}[0]{\func{final}}
+\newcommand{\private}[0]{\func{private}}
+\newcommand{\interface}[0]{\func{interface}}
+\newcommand{\accessible}[0]{\func{accessible}}
+\newcommand{\checkaccess}[0]{\func{checkAccess}}
+
+\newcommand{\rvoid}[0]{\ensuremath{\epsilon}\xspace}
+
+\newcommand{\registers}[0]{\ensuremath{\rho}\xspace}
+\newcommand{\lastresult}[0]{\ensuremath{\lambda}\xspace}
+
+
+%\newcommand{\subtype}[0]{\ensuremath{\preceq}\xspace}
+\newcommand{\subtype}[0]{\ensuremath{<:}\xspace}
+
+\newenvironment{sequent}[0]{\begin{prooftree}}{\end{prooftree}}
+
+\newcommand{\ie}[0]{\textit{i.e.}\xspace}
+
+
+
+\newcommand{\reffig}[1]{Figure~\ref{#1}\xspace}
+
+
+
+\title{Dalvik bytecode verification}
+\author{Arnaud Fontaine}
+
+
+
+\begin{document}
+
+\maketitle
+
+\paragraph{Prerequisites}
+
+\begin{definition}[Application package]
+  \todo{revoir cette définition foireuse}
+  An application, \ie an APK in Android's terminology,
+  contains a \texttt{classes.dex} with several pools:
+  \begin{itemize}
+  \item \pstrings : a set of string constants;
+  \item \ptypes : a set of type descriptors;
+  \item \pfields : a set of (class) field descriptors;
+  \item \pmethods : a set of method descriptors.
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[Dalvik VM]
+  \begin{itemize}
+  \item \classes : \dots %see below \todo{définir que les trucs suivants existent dans \classes : $\jobject = \aclass{java.lang.Object}$, $\jstring = \aclass{java.lang.String}$, $\jclass = \aclass{java.lang.Class}$, $\jexception = \aclass{java.lang.Exception}$}
+  \item $\fields = \left\{ c.f \mid c \in \classes \right\} $
+  \item $\methods = \left\{ c.m \mid c \in \classes \right\} $
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[Join-semilattice of class hierarchy]
+  %% Join-semilattice $(\classes, \leq, \vee)$ of class hierarchy, where $C_1 \leq C_2$ means 
+  %% $C_1$ inherits (or implements) $C_2$. \todo{definir $\vee$}
+  $\classes$ is the set of all classes, interfaces.
+
+  $(\inherits) : \classes \times \classes \longrightarrow \mathbb{B}$, means inherits or implements.
+
+  $\classtypes \triangleq \powerset_{\geq 1}(\classes)$ \todo{attention, à cause de la relation d'héritage à la Java, ce n'est pas un semi-lattice.. voir page 6 et 9 (papier xavier). On exprime ici la conjonction de types auxquels appartient une instance.}
+
+  \begin{gather*}
+  \begin{aligned}
+    (\cinherits) : \classtypes \times \classtypes & \longrightarrow \classtypes\\
+    C_1 \cinherits C_2 & \equiv \forall c_2 \in C_2 \exists c_1 \in C_1\ c_1 \inherits c_2\\
+  \end{aligned}\\
+  \begin{aligned}
+    (\cjoin) : \classtypes \times \classtypes & \longrightarrow \classtypes\\
+    C_1 \cjoin C_2 & \triangleq \begin{cases}
+      C_2 & \text{if $C_1$ \cinherits $C_2$}\\
+      C_1 & \text{if $C_2$ \cinherits $C_1$}\\
+      \left\{ c \mid \exists (c_1, c_2) \in C_1 \times C_2, c_1 \inherits c, c_2 \inherits c, \nexists c' \in \classes\ (c' \neq c) \wedge (c_1 \inherits c' \inherits c) \wedge (c_2 \inherits c' \inherits c) \right\} & \text{otherwise}\\
+      \end{cases}
+  \end{aligned}
+  \end{gather*}
+
+  Join-semilattice $(\classtypes, \cinherits, \cjoin)$
+  \todo{montrer qu'il existe toujours un plus grand élément, $\{\jobject\}$}
+
+\end{definition}
+
+\begin{definition}[Concrete types]
+  Value types $\valuetypes \triangleq \left\{ \datainteger, \datafloat, \datalong, \datadouble \right\} \cup \left\{ \refobject{c_1, \dots, c_n} \mid \{c_1,\dots, c_n\} \in \classtypes \right\}$.
+
+  Concrete types $\concretetypes \triangleq \valuetypes \cup \left\{ \refarray{p}{t} \mid p \in \mathbb{N}^*, t \in \valuetypes \right\}$.
+\end{definition}
+
+
+\begin{definition}[Join-semilattice of types]
+  Join-semilattice $(\types, \leq, \vee)$ of types\todo{\types est potentiellement infini à cause de l'utilisation d'un entier pour coder la taille d'un tableau, il faudra qu'il soit fini pour le point fixe !!!} with
+  \[
+  \types \triangleq \concretetypes \cup \left\{ \top, \pnull, \meetz, \meettd, \meetsq, \joinz, \jointd, \joinsq \right\}
+  \]
+  
+  The ordering relation $\leq$ and the join operation $\vee$ are defined by
+  \begin{center}
+
+    \begin{tabular}{cccccccc}
+      &&&& \rnode{top}{$\top$}\\[2em]
+      & \rnode{j64}{\joinsq} &&& \rnode{j32}{\jointd} & \rnode{jzero}{\joinz}\\[2em]
+      &&&&&& \rnode{ref}{$\refobject{\jobject}$}\\[1em]
+      \rnode{double}{\datadouble} & \rnode{long}{\datalong} &&& \rnode{float}{\datafloat} & \rnode{integer}{\datainteger} & \rnode{refo}{$\refobject{c_1,\dots,c_n}$} & \rnode{refa}{$\refarray{p}{t}$}\\[2em]
+      & \rnode{m64}{\meetsq} &&&& \rnode{m32}{\meettd} & \rnode{null}{\pnull}\\[2em]
+      &&&&& \rnode{mzero}{\meetz}\\[2em]
+      &&&& \rnode{bot}{$\bot$}
+    \end{tabular}
+
+    %%%%
+
+    \psset{nodesep=4pt}
+
+    \ncline{-}{bot}{m64}
+    \ncline{-}{bot}{mzero}
+
+    \ncline{-}{m64}{long}
+    \ncline{-}{m64}{double}
+
+    \ncline{-}{mzero}{m32}
+    \ncline{-}{mzero}{null}
+
+    \ncline{-}{refo}{ref}
+    \ncline{-}{refa}{ref}
+    
+    \ncline{-}{null}{refo}
+    \ncline{-}{null}{refa}
+    
+    \ncline{-}{m64}{long}
+    \ncline{-}{m64}{double}
+
+    \ncline{-}{m32}{integer}
+    \ncline{-}{m32}{float}
+    
+    \ncline{-}{long}{j64}
+    \ncline{-}{double}{j64}
+    \ncline{-}{integer}{j32}
+    \ncline{-}{float}{j32}
+    
+    \ncline{-}{integer}{jzero}
+    \ncline{-}{ref}{jzero}
+    
+    \ncline{-}{j64}{top}
+    \ncline{-}{j32}{top}
+    \ncline{-}{jzero}{top}
+  \end{center}
+  with
+  $\refobject{C_1} \leq \refobject{C_2} \equiv C_1 \cinherits C_2$,
+  $\refobject{C_1} \vee \refobject{C_2} \equiv \refobject{C_1 \cjoin C_2}$,
+  \[
+  \refarray{p_1}{t_1} \leq \refarray{p_2}{t_2} \equiv \begin{cases}
+    C_1 \cinherits C_2 & \text{if $p_1 = p_2$ and $t_1 = \refobject{C_1}$ and $t_2 = \refobject{C_2}$}\\
+    \var{true} & \text{if ($p_1 = p_2$ and $t_1 = t_2$) or ($p_2 < p_1$ and $t_2 = \refobject{\jobject}$)}\\
+    \var{false} & \text{otherwise}\\
+    \end{cases}
+  \]
+  and
+  \[
+  \refarray{p_1}{t_1} \vee \refarray{p_2}{t_2} \triangleq \begin{cases}
+    \refarray{p_2}{t_2} & \text{if $\refarray{p_1}{t_1} \leq \refarray{p_2}{t_2}$}\\ 
+    \refarray{p_1}{t_1} & \text{if $\refarray{p_2}{t_2} \leq \refarray{p_1}{t_1}$}\\
+    \refarray{p_1}{\refobject{C_1 \cjoin C_2}} & \text{if $p_1 = p_2$ and $t_1 = \refobject{C_1}$ and $t_2 = \refobject{C_2}$}\\
+    \refobject{\jobject} & \text{otherwise}\\
+  \end{cases}
+  \]
+\end{definition}
+
+
+\begin{definition}[Valide subtype relation \subtype]
+  $t_1 \subtype t_2 \equiv t_1 \leq t_2 \wedge t_2 \neq \top$
+\end{definition}
+
+
+
+\begin{definition}[Function \resolve]
+  \begin{align*}
+    \resolve & : \ptypes \longrightarrow \concretetypes\\
+    \resolve & : \pfields \longrightarrow \fields\\
+    \resolve & : \pmethods \longrightarrow \methods\\
+  \end{align*}
+\end{definition}
+
+\begin{definition}[Function \typeof]
+  $\typeof : \fields \longrightarrow \concretetypes$
+\end{definition}
+
+\begin{definition}[Function \nbparams]
+  $\nbparams : \methods \longrightarrow \mathbb{N}$
+\end{definition}
+
+\begin{definition}[Function \returnof]
+  $\returnof : \methods \longrightarrow \concretetypes \cup \{\rvoid\}$
+\end{definition}
+
+\begin{definition}[Function \parameter]
+  $\parameter : \methods \times \mathbb{N} \longrightarrow \concretetypes$
+\end{definition}
+
+\begin{definition}[Function \static]
+  $\static : \fields \cup \methods \longrightarrow \mathbb{B}$
+\end{definition}
+
+\begin{definition}[Function \switchoffsets]
+  $\switchoffsets : \mathbb{N} \times \mathbb{N} \longrightarrow \powerset(\mathbb{N})$
+\end{definition}
+
+\begin{definition}[Function \constructor]
+  $\constructor : \methods \longrightarrow \mathbb{B}$
+\end{definition}
+
+\begin{definition}[Function \interface]
+  $\interface : \classes \longrightarrow \mathbb{B}$
+\end{definition}
+
+\begin{definition}[Function \accessible]
+  $\accessible : \classes \times (\fields \cup \methods) \longrightarrow \mathbb{B}$
+\end{definition}
+
+
+
+
+The intraprocedural control flow graph of a method can be built
+linearly since overlapping sequences of instructions is not permitted
+in \dalvik's bytecode. The sequence of instructions of $c.m$ is thus
+sequentially decoded from the first byte of the related code data to
+build the mapping $\instruction{c.m} : \mathbb{N} \longrightarrow
+\instructions$ such that $\instruction{c.m}(\var{pc})$ is defined iff
+\var{pc} is an offset to such a decoded instruction; otherwise,
+$\instruction{c.m}(\var{pc})$ is undefined.\todo{définir que $|b|$ donne la taille de l'instruction décodée} \todo{préciser que certaines instructions embarquent des données, immédiatement (fill array) ou plus loin (switch)}
+
+\begin{definition}[Intraprocedural control flow graph]
+  The intraprocedural control flow graph of a method $c.m \in \methods$
+  is a graph $CFG_{c.m} \triangleq (V_{c.m}, E_{c.m})$ such that
+  \begin{align*}
+    V_{c.m} \triangleq \{ & (\var{pc}, \instruction{c.m}(\var{pc})) \mid \var{pc} \in \var{dom}(\instruction{c.m})\}\\
+    E_{c.m} \triangleq \{ & (v_1, v_2, j) \mid v_1 \in V_{c.m}, v_2 \in V_{c.m}, j \in \jumps, v_1 = (\var{pc}_1, b_1), v_2 = (\var{pc}_2, b_2),\\
+    &\quad\quad\quad\quad\wedge (b_1 = \bcode{if-*}\ r_1\ r_2\ n \implies (\var{pc}_2 = \var{pc}_1 + n \wedge j = ) \vee (\var{pc}_2 = \var{pc}_1 + |b_1|)) \\
+    &\quad\quad\quad\quad\wedge (b_1 = \bcode{goto}\ n \implies \var{pc}_2 = \var{pc}_1 + n)\\
+    &\quad\quad\quad\quad\wedge (b_1 = \bcode{*-switch}\ r\ n\ \implies \var{pc}_2 \in \switchoffsets(\var{pc}_1, n))\\
+    &\quad\quad\quad\quad\wedge (b_1 \notin \{ \bcode{return-*}\dots, \bcode{if-*}\dots, \bcode{goto}\dots, \bcode{*-switch}\dots, \bcode{throw}\dots \} \implies \var{pc}_2 = \var{pc}_1 + |b_1|) \}\\
+  \end{align*}
+\end{definition}
+
+
+
+
+\todo{TRES IMPORTANT : justifier d'une première étape où l'on aura vérifié les paramètres fields, methods, strings et types pour ne plus avoir que les notres !!! \ie homomorphisme en appliquant \resolve sur les parametres nécessaires des opcodes}
+
+
+
+\begin{definition}[Program state]
+  
+  For a method $c.m \in \methods$ and $\var{pc} \in \var{dom}(\instruction{c.m})$
+
+  $Q_{c.m}^\var{pc} \triangleq (\registers_{c.m}^\var{pc}, \lastresult_{c.m}^\var{pc})$
+  with
+  $\registers_{c.m}^\var{pc}: \{ i \mid 0 \leq i < \nbregisters(c.m)\} \longrightarrow \types$ and $\lastresult_{c.m}^\var{pc} \in \types \cup \{\rvoid\}$.
+
+  Initial state
+  $\forall c.m \in \methods,\ Q_{c.m}^0 \triangleq (\registers_{c.m}^0, \rvoid)$ with
+  $\forall r \in \var{dom}(\registers_{c.m})\ \registers_{c.m}^0(r) \triangleq \top$.
+
+  
+\end{definition}
+
+
+
+
+\begin{definition}[Function \checkaccess]
+  $\checkaccess : \methods \times \instructions  \longrightarrow \mathbb{B}$
+
+  \[\scriptsize
+  \begin{array}{l}
+    \checkaccess(c.m, b) =\\
+    \begin{cases}
+      \accessible(c, c'.f) \wedge \neg\static(c'.f) & \text{if $b = \bcode{iget}*\ r_d\ r_o\ c'.f$}\\
+      \accessible(c, c'.f) \wedge \neg\static(c'.f) \wedge (\final(c'.f) \implies \constructor(c.m)) & \text{if $b = \bcode{iput}*\ r_s\ r_o\ c'.f$}\\
+      \accessible(c, c'.f) \wedge \static(c'.f) & \text{if $b = \bcode{sget}*\ r_d\ r_o\ c'.f$}\\
+      \accessible(c, c'.f) \wedge \static(c'.f) \wedge \neg\final(c'.f)\todo{euh, comment ils sont initialisés ? comme en java classique ?} & \text{if $b = \bcode{sput}*\ r_s\ c'.f$}\\
+      \accessible(c, c'.m') \wedge \neg\static(c'.m') \wedge \neg\interface(c') \wedge (\constructor(c'.m') \vee \private(c'.m') \vee \final(c'.m')) & \text{if $b = \bcode{invoke-direct}\ r_i\ r_1 \dots r_n\ c'.m'$}\\
+      \accessible(c, c'.m') \wedge \neg\static(c'.m') \wedge \interface(c') \wedge \neg\constructor(c'.m')\todo{on pourrait ajouter $\neg(\constructor(c'.m') \vee \private(c'.m') \vee \final(c'.m'))$ mais normalement c'est inutile car on aura vérifié l'interface $c'$ ne définit pas de private et/ou de final et/ou de constructeur} & \text{if $b = \bcode{invoke-interface}\ r_i\ r_1 \dots r_n\ c'.m'$}\\
+      \accessible(c, c'.m') \wedge \static(c'.m') \wedge \neg\interface(c')\todo{on aura vérifié qu'une méthode static n'est pas un constructeur, ou pas ???} & \text{if $b = \bcode{invoke-static}\ r_1 \dots r_n\ c'.m'$}\\
+      \accessible(c, c'.m') \wedge \neg\static(c'.m') \wedge \neg\interface(c')  \wedge c \inherits c' \wedge (\constructor(c'.m') \implies \constructor(c.m)) & \text{if $b = \bcode{invoke-super}\ r_i\ r_1 \dots r_n\ c'.m'$}\\
+      \accessible(c, c'.m') \wedge \neg(\static(c'.m') \vee \interface(c') \vee \private(c'.m') \vee \constructor(c'.m')) &\text{if $b =  \bcode{invoke-virtual}\ r_i\ r_1 \dots r_n\ c'.m'$}\\
+      \var{true} & \text{otherwise}\\
+    \end{cases}\\
+  \end{array}
+  \]
+  
+\end{definition}
+
+
+
+
+
+
+
+
+\appendix
+
+\section{Typing rules}
+%\input{rules}
+
+
+\section{TODO}
+\begin{itemize}
+\item initialisation corrected des objets et appel du constructeur immédiatement après le \bcode{new-instance}
+  
+\item parsing/décodage des instructions
+  \begin{itemize}
+  \item vérification des paramètres passés (\bcode{const}, \bcode{goto}, \bcode{filled*}, \dots)
+  \item vérification des blocs monitorés
+  \item pas de saut dans des trucs qui sont pas des instructions (apres parsing linéaire du bytecode)
+  \end{itemize}
+
+
+\end{itemize}
+
+
+
+
+
+
+\end{document}
+

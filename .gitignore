@@ -1,0 +1,16 @@
+target/
+apk/
+Cargo.lock
+examples/target/
+examples/Cargo.lock
+**~
+*.pdf
+*.dot
+*.dex
+*.apk
+doc/*.aux
+doc/*.dvi
+doc/*.log
+doc/*.out
+output/
+conf/custom

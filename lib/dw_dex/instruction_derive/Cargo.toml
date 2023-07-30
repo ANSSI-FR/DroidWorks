@@ -1,0 +1,15 @@
+[package]
+name = "instruction_derive"
+version = "1.2.0"
+authors = ["DroidWorks Team <droidworks@ssi.gouv.fr>"]
+edition = "2021"
+description = "Proc macro derive to ease the listing of Dalvik instructions"
+categories = []
+
+[lib]
+proc-macro = true
+
+[dependencies]
+syn = "1.0"
+proc-macro2 = "1.0"
+quote = "1.0"

@@ -1,0 +1,942 @@
+The following statement holds for all following transformation rules:
+\[Q = (\registers, \lastresult)\]
+
+The method currently analysed is $c.m \in \methods$.
+
+{\scriptsize
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aget}\ r_d\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) \subtype \pnull$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \meettd], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aget}\ r_d\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) = \refarray{1}{t}$ \defaultHypSeparation $t \in \{ \dataint, \datafloat \}$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto t], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aget-boolean}\ r_d\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) \subtype \pnull \vee \registers(r_a) = \refarray{1}{\databool}$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \databool], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aget-byte}\ r_d\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) \subtype \pnull \vee \registers(r_a) = \refarray{1}{\databyte}$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \databyte], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aget-char}\ r_d\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) \subtype \pnull \vee \registers(r_a) = \refarray{1}{\datachar}$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datachar], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aget-object}\ r_d\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) \subtype \pnull$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \pnull], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aget-object}\ r_d\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) = \refarray{p}{t}$ \defaultHypSeparation $p > 1$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \refarray{p - 1}{t}], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aget-object}\ r_d\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) = \refarray{1}{t}$ \defaultHypSeparation $t \subtype \refobject{\jobject}$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto t], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aget-short}\ r_d\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) \subtype \pnull \vee \registers(r_a) = \refarray{1}{\datashort}$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datashort], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aget-wide}\ r_d\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) \subtype \pnull$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \meetsq, r_d + 1 \mapsto \meetsq], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aget-wide}\ r_d\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) = \refarray{1}{t}$ \defaultHypSeparation $t \subtype \joinsq$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto t, r_d + 1 \mapsto t], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aput}\ r_s\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) \subtype \pnull \vee \registers(r_a) = \refarray{1}{t}$ \defaultHypSeparation $\registers(r_s) \subtype \jointd$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aput-boolean}\ r_s\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) \subtype \pnull \vee \registers(r_a) = \refarray{1}{\databool}$ \defaultHypSeparation $\registers(r_s) \subtype \databool$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aput-byte}\ r_s\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) \subtype \pnull \vee \registers(r_a) = \refarray{1}{\databyte}$ \defaultHypSeparation $\registers(r_s) \subtype \databyte$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aput-char}\ r_s\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) \subtype \pnull \vee \registers(r_a) = \refarray{1}{\datachar}$ \defaultHypSeparation $\registers(r_s) \subtype \datachar$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aput-object}\ r_s\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) \subtype \pnull$ \defaultHypSeparation $\registers(r_s) \subtype \refobject{\jobject}$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aput-object}\ r_s\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) = \refarray{p}{t}$ \defaultHypSeparation $p > 1$ \defaultHypSeparation $\registers(r_s) \subtype \refarray{p - 1}{t}$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aput-object}\ r_s\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) = \refarray{1}{t}$ \defaultHypSeparation $\registers(r_s) \subtype t \subtype \refobject{\jobject}$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aput-short}\ r_s\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) \subtype \pnull \vee \registers(r_a) = \refarray{1}{\datashort}$ \defaultHypSeparation $\registers(r_s) \subtype \datashort$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aput-wide}\ r_s\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) \subtype \pnull$ \defaultHypSeparation $\registers(r_s) \subtype \joinsq$ \defaultHypSeparation $\registers(r_s) = \registers(r_s + 1)$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{aput-wide}\ r_s\ r_a\ r_i$}
+  \AxiomC{$\registers(r_a) = \refarray{1}{t}$ \defaultHypSeparation $\registers(r_s) \subtype t \subtype \joinsq$ \defaultHypSeparation $\registers(r_s) = \registers(r_s + 1)$}
+  \AxiomC{$\registers(r_i) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{array-length}\ r_d\ r_a$}
+  \AxiomC{$\registers(r_a) \subtype \pnull \vee \registers(r_a) = \refarray{p}{t}$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \dataint], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \var{binop}\bcode{-double}\ r_d\ r_{s_1}\ r_{s_2}$}
+  \AxiomC{$\registers(r_{s_1}) \subtype \datadouble$ \defaultHypSeparation $\registers(r_{s_1}) = \registers(r_{s_1}+1)$}
+  \AxiomC{$\registers(r_{s_2}) \subtype \datadouble$ \defaultHypSeparation $\registers(r_{s_2}) = \registers(r_{s_2}+1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datadouble, r_d + 1\mapsto \datadouble], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \var{binop}\bcode{-double/2addr}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_d) \subtype \datadouble$ \defaultHypSeparation $\registers(r_d) = \registers(r_d + 1)$}
+  \AxiomC{$\registers(r_s) \subtype \datadouble$ \defaultHypSeparation $\registers(r_s) = \registers(r_s + 1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datadouble, r_d + 1\mapsto \datadouble], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \var{binop}\bcode{-float}\ r_d\ r_{s_1}\ r_{s_2}$}
+  \AxiomC{$\registers(r_{s_1}) \subtype \datafloat$}
+  \AxiomC{$\registers(r_{s_2}) \subtype \datafloat$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datafloat], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \var{binop}\bcode{-float/2addr}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_d) \subtype \datafloat$}
+  \AxiomC{$\registers(r_s) \subtype \datafloat$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datafloat], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{\{shl,shr,ushr\}}\bcode{-long}\ r_d\ r_{s_1}\ r_{s_2}$}
+  \AxiomC{$\registers(r_{s_1}) \subtype \datalong$ \defaultHypSeparation $\registers(r_{s_1}) = \registers(r_{s_1}+1)$}
+  \AxiomC{$\registers(r_{s_2}) \subtype \dataint$ \defaultHypSeparation $\registers(r_{s_2}) = \registers(r_{s_2}+1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datalong, r_d + 1\mapsto \datalong], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \var{binopLogic}\bcode{-long}\ r_d\ r_{s_1}\ r_{s_2}$}
+  \AxiomC{$\registers(r_{s_1}) \subtype \datalong$ \defaultHypSeparation $\registers(r_{s_1}) = \registers(r_{s_1}+1)$}
+  \AxiomC{$\registers(r_{s_2}) \subtype \datalong$ \defaultHypSeparation $\registers(r_{s_2}) = \registers(r_{s_2}+1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \registers(r_{s_1}) \vee \registers(r_{s_2}), r_d + 1\mapsto \registers(r_{s_1}+1) \vee \registers(r_{s_2}+1)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \var{binopArith}\bcode{-long}\ r_d\ r_{s_1}\ r_{s_2}$}
+  \AxiomC{$\registers(r_{s_1}) \subtype \datalong$ \defaultHypSeparation $\registers(r_{s_1}) = \registers(r_{s_1}+1)$}
+  \AxiomC{$\registers(r_{s_2}) \subtype \datalong$ \defaultHypSeparation $\registers(r_{s_2}) = \registers(r_{s_2}+1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datalong, r_d + 1\mapsto \datalong], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{\{shl,shr,ushr\}}\bcode{-long/2addr}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_d) \subtype \datalong$ \defaultHypSeparation $\registers(r_d) = \registers(r_d+1)$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$ \defaultHypSeparation $\registers(r_s) = \registers(r_s+1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datalong, r_d + 1\mapsto \datalong], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \var{binopLogic}\bcode{-long/2addr}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_d) \subtype \datalong$ \defaultHypSeparation $\registers(r_d) = \registers(r_d + 1)$}
+  \AxiomC{$\registers(r_s) \subtype \datalong$ \defaultHypSeparation $\registers(r_s) = \registers(r_s + 1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \registers(r_d) \vee \registers(r_s), r_d + 1\mapsto \registers(r_d+1) \vee \registers(r_s+1)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \var{binopArith}\bcode{-long/2addr}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_d) \subtype \datalong$ \defaultHypSeparation $\registers(r_d) = \registers(r_d + 1)$}
+  \AxiomC{$\registers(r_s) \subtype \datalong$ \defaultHypSeparation $\registers(r_s) = \registers(r_s + 1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datalong, r_d + 1\mapsto \datalong], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \var{binopArith}\bcode{-int}\ r_d\ r_{s_1}\ r_{s_2}$}
+  \AxiomC{$\registers(r_{s_1}) \subtype \dataint$}
+  \AxiomC{$\registers(r_{s_2}) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \dataint], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \var{binopArith}\bcode{-int/2addr}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_d) \subtype \dataint$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \dataint], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \var{binopLogic}\bcode{-int}\ r_d\ r_{s_1}\ r_{s_2}$}
+  \AxiomC{$\registers(r_{s_1}) \subtype \dataint$}
+  \AxiomC{$\registers(r_{s_2}) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \registers(r_{s_1}) \vee \registers(r_{s_2})], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \var{binopLogic}\bcode{-int/2addr}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_d) \subtype \dataint$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \registers(r_d) \vee \registers(r_s)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \var{binop}\bcode{-int/lit16}\ r_d\ r_s\ n$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \dataint], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \var{binop}\bcode{-int/lit8}\ r_d\ r_s\ n$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \dataint], \rvoid)$}
+\end{sequent}
+
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{check-cast}\ r_s\ t$}
+  \AxiomC{$\registers(r_s) \subtype \refobject{\jobject}$}
+  \AxiomC{$t \subtype \refobject{\jobject}$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}\todo{le cas où le check cast (ne) passe (pas) doit être dans le flot de contrôle}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{cmp-double}\ r_{s_1}\ r_{s_2}$}
+  \AxiomC{$\registers(r_{s_1}) \subtype \datadouble$ \defaultHypSeparation $\registers(r_{s_1}) = \registers(r_{s_1} + 1)$}
+  \AxiomC{$\registers(r_{s_2}) \subtype \datadouble$ \defaultHypSeparation $\registers(r_{s_2}) = \registers(r_{s_2} + 1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \databyte], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{cmp-float}\ r_{s_1}\ r_{s_2}$}
+  \AxiomC{$\registers(r_{s_1}) \subtype \datafloat$}
+  \AxiomC{$\registers(r_{s_2}) \subtype \datafloat$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \databyte], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{cmp-long}\ r_{s_1}\ r_{s_2}$}
+  \AxiomC{$\registers(r_{s_1}) \subtype \datalong$ \defaultHypSeparation $\registers(r_{s_1}) = \registers(r_{s_1} + 1)$}
+  \AxiomC{$\registers(r_{s_2}) \subtype \datalong$ \defaultHypSeparation $\registers(r_{s_2}) = \registers(r_{s_2} + 1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \databyte], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{const}\ r_d\ n$}
+  \AxiomC{$n \neq 0$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \meettd], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{const}\ r_d\ 0$}
+  \UnaryInfC{$Q' = (\registers[r_d \mapsto \meetz], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{const-class}\ r_d\ t$}
+  \AxiomC{$t \subtype \refobject{\jobject}$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \refobject{\jclass}], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{const-string}\ r_d\ s$}
+  \UnaryInfC{$Q' = (\registers[r_d \mapsto \refobject{\jstring}], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{const-wide}\ r_d\ n$}
+  \UnaryInfC{$Q' = (\registers[r_d \mapsto \meetsq, r_d + 1 \mapsto \meetsq], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{fill-array-data}\ r_a\ n$}\todo{vérifier la sémantique}
+  \AxiomC{$\registers(r_a) \subtype \pnull$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{fill-array-data}\ r_a\ n$}\todo{vérifier la sémantique}
+  \AxiomC{$\registers(r_a) = \refarray{1}{t}$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{filled-new-array}\ r_s\ t$}\todo{vérifier la sémantique}
+  \AxiomC{$t \subtype \pnull$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers, t)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{filled-new-array}\ r_s\ t$}\todo{vérifier la sémantique}
+  \AxiomC{$t = \refarray{1}{t'}$ \defaultHypSeparation $t' \subtype \joinz$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers, t)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{filled-new-array-range}\ ?????????????????\ t$}\todo{todo}
+  \UnaryInfC{$Q' = (\registers, t)$}
+\end{sequent}
+
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{double-to-int}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \datadouble$}
+  \AxiomC{$\registers(r_s) = \registers(r_s + 1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \dataint], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{double-to-float}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \datadouble$}
+  \AxiomC{$\registers(r_s) = \registers(r_s + 1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datafloat], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{double-to-long}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \datadouble$}
+  \AxiomC{$\registers(r_s) = \registers(r_s + 1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datalong, r_d + 1\mapsto \datalong], \rvoid)$}
+\end{sequent}
+
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{float-to-double}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \datafloat$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \datadouble, r_d + 1\mapsto \datadouble], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{float-to-int}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \datafloat$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \dataint], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{float-to-long}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \datafloat$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \datalong, r_d + 1\mapsto \datalong], \rvoid)$}
+\end{sequent}
+
+
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{goto}\ n$}
+  \UnaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{if-eq}\ r_{s_1}\ r_{s_2}\ n$}
+  \AxiomC{$(\registers(r_{s_1}) \vee \registers(r_{s_2})) \subtype \{ \dataint, \datafloat, \refobject{\jobject} \}$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{if-ne}\ r_{s_1}\ r_{s_2}\ n$}
+  \AxiomC{$(\registers(r_{s_1}) \vee \registers(r_{s_2})) \subtype \{ \dataint, \datafloat, \refobject{\jobject} \}$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{if-lt}\ r_{s_1}\ r_{s_2}\ n$}
+  \AxiomC{$(\registers(r_{s_1}) \vee \registers(r_{s_2})) \subtype \{ \dataint, \datafloat \}$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{if-ge}\ r_{s_1}\ r_{s_2}\ n$}
+  \AxiomC{$(\registers(r_{s_1}) \vee \registers(r_{s_2})) \subtype \{ \dataint, \datafloat \}$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{if-gt}\ r_{s_1}\ r_{s_2}\ n$}
+  \AxiomC{$(\registers(r_{s_1}) \vee \registers(r_{s_2})) \subtype \{ \dataint, \datafloat \}$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{if-le}\ r_{s_1}\ r_{s_2}\ n$}
+  \AxiomC{$(\registers(r_{s_1}) \vee \registers(r_{s_2})) \subtype \{ \dataint, \datafloat \}$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{if-eqz}\ r_s\ n$}
+  \AxiomC{$\registers(r_s) \subtype \{ \dataint, \datafloat, \refobject{\jobject} \}$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{if-nez}\ r_s\ n$}
+  \AxiomC{$\registers(r_s) \subtype \{ \dataint, \datafloat, \refobject{\jobject} \}$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{if-ltz}\ r_s\ n$}
+  \AxiomC{$\registers(r_s) \subtype \{ \dataint, \datafloat \}$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{if-gez}\ r_s\ n$}
+  \AxiomC{$\registers(r_s) \subtype \{ \dataint, \datafloat \}$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{if-gtz}\ r_s\ n$}
+  \AxiomC{$\registers(r_s) \subtype \{ \dataint, \datafloat \}$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{if-lez}\ r_s\ n$}
+  \AxiomC{$\registers(r_s) \subtype \{ \dataint, \datafloat \}$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{iget}\ r_d\ r_o\ c'.f$}
+  \AxiomC{$\typeof(c'.f) \in \{ \dataint, \datafloat \}$}
+  \AxiomC{$\registers(r_o) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \typeof(c'.f)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{iget-boolean}\ r_d\ r_o\ c'.f$}
+  \AxiomC{$\typeof(c'.f) = \databool$}
+  \AxiomC{$\registers(r_o) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \typeof(c'.f)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{iget-byte}\ r_d\ r_o\ c'.f$}
+  \AxiomC{$\typeof(c'.f) = \databyte$}
+  \AxiomC{$\registers(r_o) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \typeof(c'.f)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{iget-char}\ r_d\ r_o\ c'.f$}
+  \AxiomC{$\typeof(c'.f) = \datachar$}
+  \AxiomC{$\registers(r_o) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \typeof(c'.f)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{iget-object}\ r_d\ r_o\ c'.f$}
+  \AxiomC{$\typeof(c'.f) \subtype \refobject{\jobject}$}
+  \AxiomC{$\registers(r_o) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \typeof(c'.f)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{iget-short}\ r_d\ r_o\ c'.f$}
+  \AxiomC{$\typeof(c'.f) = \datashort$}
+  \AxiomC{$\registers(r_o) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \typeof(c'.f)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{iget-wide}\ r_d\ r_o\ c'.f$}
+  \AxiomC{$\typeof(c'.f) \subtype \joinsq$}
+  \AxiomC{$\registers(r_o) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \typeof(c'.f), r_d + 1 \mapsto \typeof(c'.f)], \rvoid)$}
+\end{sequent}
+
+
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{instance-of}\ r_d\ r_s\ t$}
+  \AxiomC{$t \subtype \refobject{\jobject}$}
+  \AxiomC{$\registers(r_s) \subtype \refobject{\jobject}$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \databool], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{int-to-byte}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \databyte], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{int-to-char}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \datachar], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{int-to-double}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \datadouble, r_d + 1\mapsto \datadouble], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{int-to-float}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \datafloat], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{int-to-long}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \datalong, r_d + 1\mapsto \datalong], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{int-to-short}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \datashort], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{invoke-direct}\ r_i\ r_1 \dots r_n\ c'.m'$}\todo{checker si private ou si constructeur !!!}
+  \AxiomC{$\registers(r_i) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \AxiomC{$\nbparams(c'.m') = n$ \defaultHypSeparation $\forall 1 \leq j \leq n\ \registers(r_j) \subtype \parameter(c'.m', j)$}
+  \TrinaryInfC{$Q' = (\registers, \returnof(c'.m'))$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{invoke-interface}\ r_i\ r_1 \dots r_n\ c'.m'$}\todo{interêt de checker si c'est bien une interface ???}
+  \AxiomC{$\registers(r_i) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \AxiomC{$\nbparams(c'.m') = n$ \defaultHypSeparation $\forall 1 \leq j \leq n\ \registers(r_j) \subtype \parameter(c'.m', j)$}
+  \TrinaryInfC{$Q' = (\registers, \returnof(c'.m'))$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{invoke-static}\ r_1 \dots r_n\ c'.m'$}
+  \AxiomC{$\checkaccess(c.m, b)$}
+  \AxiomC{$\nbparams(c'.m') = n$ \defaultHypSeparation $\forall 1 \leq j \leq n\ \registers(r_j) \subtype \parameter(c'.m', j)$}
+  \TrinaryInfC{$Q' = (\registers, \returnof(c'.m'))$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{invoke-super}\ r_i\ r_1 \dots r_n\ c'.m'$}
+  \AxiomC{$\registers(r_i) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \AxiomC{$\nbparams(c'.m') = n$ \defaultHypSeparation $\forall 1 \leq j \leq n\ \registers(r_j) \subtype \parameter(c'.m', j)$}
+  \TrinaryInfC{$Q' = (\registers, \returnof(c'.m'))$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{invoke-virtual}\ r_i\ r_1 \dots r_n\ c'.m'$}
+  \AxiomC{$\registers(r_i) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \AxiomC{$\nbparams(c'.m') = n$ \defaultHypSeparation $\forall 1 \leq j \leq n\ \registers(r_j) \subtype \parameter(c'.m', j)$}
+  \TrinaryInfC{$Q' = (\registers, \returnof(c'.m'))$}
+\end{sequent}
+
+
+
+
+
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{iput}\ r_s\ r_o\ c'.f$}\todo{ACCESSIBLE ? FINAL ??? et pour les iget et les suivnats aussi !!!!!}
+  \AxiomC{$\registers(r_s) \subtype \typeof(c'.f) \subtype \jointd$}
+  \AxiomC{$\registers(r_o) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{iput-boolean}\ r_s\ r_o\ c'.f$}
+  \AxiomC{$\typeof(c'.f) = \databool$ \defaultHypSeparation $\registers(r_s) \subtype \typeof(c'.f)$}
+  \AxiomC{$\registers(r_o) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{iput-byte}\ r_s\ r_o\ c'.f$}
+  \AxiomC{$\typeof(c'.f) = \databyte$ \defaultHypSeparation $\registers(r_s) \subtype \typeof(c'.f)$}
+  \AxiomC{$\registers(r_o) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{iput-char}\ r_s\ r_o\ c'.f$}
+  \AxiomC{$\typeof(c'.f) = \datachar$ \defaultHypSeparation $\registers(r_s) \subtype \typeof(c'.f)$}
+  \AxiomC{$\registers(r_o) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{iput-object}\ r_s\ r_o\ c'.f$}
+  \AxiomC{$\typeof(c'.f) \subtype \refobject{\jobject}$ \defaultHypSeparation $\registers(r_s) \subtype \typeof(c'.f)$}
+  \AxiomC{$\registers(r_o) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{iput-short}\ r_s\ r_o\ c'.f$}
+  \AxiomC{$\typeof(c'.f) = \datashort$ \defaultHypSeparation $\registers(r_s) \subtype \typeof(c'.f)$}
+  \AxiomC{$\registers(r_o) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{iput-wide}\ r_s\ r_o\ c'.f$}
+  \AxiomC{$\registers(r_s) \subtype \typeof(c'.f) \subtype \joinsq$ \defaultHypSeparation $\registers(r_s) = \registers(r_s + 1)$}
+  \AxiomC{$\registers(r_o) \subtype \refobject{c'}$ \defaultHypSeparation $\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{long-to-int}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \datalong$}
+  \AxiomC{$\registers(r_s) = \registers(r_s + 1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \dataint], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{long-to-float}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \datalong$}
+  \AxiomC{$\registers(r_s) = \registers(r_s + 1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datafloat], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{long-to-double}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \datalong$}
+  \AxiomC{$\registers(r_s) = \registers(r_s + 1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datadouble, r_d + 1\mapsto \datadouble], \rvoid)$}
+\end{sequent}
+
+
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{monitor-*}\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \refobject{\jobject}$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{move}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \jointd$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \registers(r_s)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{move-object}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \refobject{\jobject}$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \registers(r_s)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{move-wide}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \joinsq$ \defaultHypSeparation $\registers(r_s) = \registers(r_s+1)$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \registers(r_s), r_d + 1 \mapsto \registers(r_s + 1)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{move-result}\ r_d$}
+  \AxiomC{$\lastresult \neq \rvoid$ \defaultHypSeparation $\lastresult \subtype \jointd$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \lastresult], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{move-result-object}\ r_d$}
+  \AxiomC{$\lastresult \neq \rvoid$ \defaultHypSeparation $\lastresult \subtype \refobject{\jobject}$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \lastresult], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{move-result-wide}\ r_d$}
+  \AxiomC{$\lastresult \neq \rvoid$ \defaultHypSeparation $\lastresult \subtype \joinsq$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \lastresult, r_d + 1 \mapsto \lastresult], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{move-exception}\ r_d$}
+  \AxiomC{$\lastresult \neq \rvoid$ \defaultHypSeparation $\lastresult \subtype \refobject{\jexception}$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \lastresult], \rvoid)$}
+\end{sequent}
+
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{neg-double}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \datadouble$}
+  \AxiomC{$\registers(r_s) = \registers(r_s + 1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datadouble, r_d + 1\mapsto \datadouble], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{neg-float}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \datafloat$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \datafloat], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{neg-int}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \dataint], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{neg-long}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \datalong$}
+  \AxiomC{$\registers(r_s) = \registers(r_s + 1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datalong, r_d + 1\mapsto \datalong], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{new-array}\ r_d\ r_s\ t$}
+  \AxiomC{$t = \refarray{p}{t'}$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto t], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{new-instance}\ r_d\ t$}
+  \AxiomC{$t = \refobject{c'}$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto t], \rvoid)$}
+\end{sequent}
+
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{nop}$}
+  \UnaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{not-int}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \BinaryInfC{$Q' = (\registers[r_d \mapsto \dataint], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{not-long}\ r_d\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \datalong$}
+  \AxiomC{$\registers(r_s) = \registers(r_s + 1)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \datalong, r_d + 1\mapsto \datalong], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{packed-switch}\ r_s\ n$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{return-void}$}
+  \AxiomC{$\returnof(m) = \rvoid$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{return}\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \returnof(m) \subtype \jointd$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{return-object}\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \returnof(m) \subtype \refobject{\jobject}$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{return-wide}\ r_s$}
+  \AxiomC{$\registers(r_s) \subtype \returnof(m) \subtype \joinsq$}
+  \AxiomC{$\registers(r_s) = \registers(r_s + 1)$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{sparse-switch}\ r_s\ n$}
+  \AxiomC{$\registers(r_s) \subtype \dataint$}
+  \BinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{sget}\ r_d\ c'.f$}
+  \AxiomC{$\typeof(c'.f) \in \{ \dataint, \datafloat \}$}
+  \AxiomC{$\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \typeof(c'.f)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{sget-boolean}\ r_d\ c'.f$}
+  \AxiomC{$\typeof(c'.f) = \databool$}
+  \AxiomC{$\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \typeof(c'.f)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{sget-byte}\ r_d\ c'.f$}
+  \AxiomC{$\typeof(c'.f) = \databyte$}
+  \AxiomC{$\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \typeof(c'.f)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{sget-char}\ r_d\ c'.f$}
+  \AxiomC{$\typeof(c'.f) = \datachar$}
+  \AxiomC{$\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \typeof(c'.f)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{sget-object}\ r_d\ c'.f$}
+  \AxiomC{$\typeof(c'.f) \subtype \refobject{\jobject}$}
+  \AxiomC{$\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \typeof(c'.f)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{sget-short}\ r_d\ c'.f$}
+  \AxiomC{$\typeof(c'.f) = \datashort$}
+  \AxiomC{$\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \typeof(c'.f)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{sget-wide}\ r_d\ c'.f$}
+  \AxiomC{$\typeof(c'.f) \subtype \joinsq$}
+  \AxiomC{$\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers[r_d \mapsto \typeof(c'.f), r_d + 1 \mapsto \typeof(c'.f)], \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{sput}\ r_s\ c'.f$}
+  \AxiomC{$\registers(r_s) \subtype \typeof(c'.f) \subtype \jointd$}
+  \AxiomC{$\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{sput-boolean}\ r_s\ c'.f$}
+  \AxiomC{$\typeof(c'.f) = \databool$ \defaultHypSeparation $\registers(r_s) \subtype \typeof(c'.f)$}
+  \AxiomC{$\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{sput-byte}\ r_s\ c'.f$}
+  \AxiomC{$\typeof(c'.f) = \databyte$ \defaultHypSeparation $\registers(r_s) \subtype \typeof(c'.f)$}
+  \AxiomC{$\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{sput-char}\ r_s\ c'.f$}
+  \AxiomC{$\typeof(c'.f) = \datachar$ \defaultHypSeparation $\registers(r_s) \subtype \typeof(c'.f)$}
+  \AxiomC{$\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{sput-object}\ r_s\ c'.f$}
+  \AxiomC{$\registers(r_s) \subtype \typeof(c'.f) \subtype \refobject{\jobject}$}
+  \AxiomC{$\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{sput-short}\ r_s\ c'.f$}
+  \AxiomC{$\typeof(c'.f) = \datashort$ \defaultHypSeparation $\registers(r_s) \subtype \typeof(c'.f)$}
+  \AxiomC{$\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{sput-wide}\ r_s\ c'.f$}
+  \AxiomC{$\registers(r_s) \subtype \typeof(c'.f) \subtype \joinsq$ \defaultHypSeparation $\registers(r_s) = \registers(r_s + 1)$}
+  \AxiomC{$\checkaccess(c.m, b)$}
+  \TrinaryInfC{$Q' = (\registers, \rvoid)$}
+\end{sequent}
+
+
+
+\begin{sequent}
+  \AxiomC{$b = \bcode{throw}\ r_e$}
+  \AxiomC{$\registers(r_e) \subtype \refobject{\jexception}$}
+  \BinaryInfC{$Q' = (\registers, \registers(r_e))$}
+\end{sequent}
+
+}

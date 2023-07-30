@@ -1,0 +1,19 @@
+configure:
+  npm install
+
+alias serve := dev
+
+dev:
+  npm run tauri dev 
+
+build:
+  npm run tauri build
+
+lint:
+  npm run lint
+  cd src-tauri && cargo clippy
+
+update:
+  npm update
+  npm install
+  cd src-tauri && ( cargo update && cargo outdated ) ; cd ..

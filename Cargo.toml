@@ -1,0 +1,98 @@
+[package]
+name = "droidworks"
+version = "1.2.0"
+authors = ["DroidWorks Team <droidworks@ssi.gouv.fr>"]
+edition = "2021"
+default-run = "droidworks"
+description = "Toolset for building static analysis for Android applications"
+readme = "../../README.md"
+categories = ["science", "compilers", "command-line-utilities"]
+
+[lib]
+name = "droidworks"
+path = "src/lib.rs"
+
+[[bin]]
+name = "droidworks"
+path = "src/bin.rs"
+
+[[bin]]
+name = "dw-aresources"
+path = "src/dw_aresources/bin.rs"
+
+[[bin]]
+name = "dw-callgraph"
+path = "src/dw_callgraph/bin.rs"
+
+[[bin]]
+name = "dw-dexdissect"
+path = "src/dw_dexdissect/bin.rs"
+
+[[bin]]
+name = "dw-disas"
+path = "src/dw_disas/bin.rs"
+
+[[bin]]
+name = "dw-hierarchy"
+path = "src/dw_hierarchy/bin.rs"
+
+[[bin]]
+name = "dw-manifest"
+path = "src/dw_manifest/bin.rs"
+
+[[bin]]
+name = "dw-nsc"
+path = "src/dw_nsc/bin.rs"
+
+[[bin]]
+name = "dw-packageinfo"
+path = "src/dw_packageinfo/bin.rs"
+
+[[bin]]
+name = "dw-permissions"
+path = "src/dw_permissions/bin.rs"
+
+[[bin]]
+name = "dw-stats"
+path = "src/dw_stats/bin.rs"
+
+[[bin]]
+name = "dw-strip"
+path = "src/dw_strip/bin.rs"
+
+[[bin]]
+name = "dw-typecheck"
+path = "src/dw_typecheck/bin.rs"
+
+[[bin]]
+name = "zipalign"
+path = "src/zipalign.rs"
+
+[dependencies]
+clap = "4.3"
+clap_complete = "4.3"
+dw_analysis = { path = "lib/dw_analysis" }
+dw_dex = { path = "lib/dw_dex" }
+dw_package = { path = "lib/dw_package" }
+dw_resources = { path = "lib/dw_resources" }
+dw_utils = { path = "lib/dw_utils" }
+ecs-logger = "1.0"
+env_logger = "0.10"
+log = "0.4"
+nu-ansi-term = "0.46"
+rayon = "1.4"
+regex = "1.9"
+serde = { version = "1.0", features = ["derive"] }
+thiserror = "1.0"
+
+[profile.release]
+lto = true
+
+[workspace]
+members = [
+    "lib/dw_analysis",
+    "lib/dw_dex",
+    "lib/dw_package",
+    "lib/dw_resources",
+    "lib/dw_utils",
+]
