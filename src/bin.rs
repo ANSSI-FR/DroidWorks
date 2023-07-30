@@ -2,8 +2,8 @@ use clap::ArgMatches;
 use clap_complete::{generate, Shell};
 use droidworks::prelude::*;
 use droidworks::{
-    cli, dw_aresources, dw_callgraph, dw_dexdissect, dw_disas, dw_hierarchy, dw_manifest, dw_nsc,
-    dw_packageinfo, dw_permissions, dw_stats, dw_strip, dw_typecheck,
+    cli, dw_aresources, dw_callgraph, dw_dexdissect, dw_disas, dw_hierarchy, dw_information_flow,
+    dw_manifest, dw_nsc, dw_packageinfo, dw_permissions, dw_stats, dw_strip, dw_typecheck,
 };
 use std::io;
 
@@ -16,6 +16,7 @@ fn main() -> DwResult<()> {
         Some(("dexdissect", cmd_args)) => dw_dexdissect::run(cmd_args),
         Some(("disas", cmd_args)) => dw_disas::run(cmd_args),
         Some(("hierarchy", cmd_args)) => dw_hierarchy::run(cmd_args),
+        Some(("information-flow", cmd_args)) => dw_information_flow::run(cmd_args),
         Some(("manifest", cmd_args)) => dw_manifest::run(cmd_args),
         Some(("nsc", cmd_args)) => dw_nsc::run(cmd_args),
         Some(("packageinfo", cmd_args)) => dw_packageinfo::run(cmd_args),

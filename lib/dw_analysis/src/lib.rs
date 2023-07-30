@@ -6,6 +6,7 @@ pub mod controlflow;
 pub mod dataflow;
 pub mod errors;
 pub mod hierarchy;
+pub mod information_flow;
 pub mod repo;
 pub mod stats;
 pub mod typing;

@@ -37,6 +37,10 @@ name = "dw-hierarchy"
 path = "src/dw_hierarchy/bin.rs"
 
 [[bin]]
+name = "dw-information-flow"
+path = "src/dw_information_flow/bin.rs"
+
+[[bin]]
 name = "dw-manifest"
 path = "src/dw_manifest/bin.rs"
 
